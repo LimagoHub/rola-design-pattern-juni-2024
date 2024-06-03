@@ -1,9 +1,10 @@
 package mitarbeiter.visitors;
 
+import mitarbeiter.AbstractMitarbeiter;
 import mitarbeiter.Gehaltsempfaenger;
 import mitarbeiter.Lohnempfänger;
 
-public class PrintVisitor implements MitarbeiterVisitor{
+public class PrintVisitor extends AbstractMitarbeiterVisitor{
     @Override
     public void visit(Gehaltsempfaenger gehaltsempfaenger) {
         System.out.println(gehaltsempfaenger);
