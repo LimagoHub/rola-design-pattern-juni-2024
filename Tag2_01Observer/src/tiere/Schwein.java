@@ -1,5 +1,8 @@
 package tiere;
 
+import events.PropertyChangedEvent;
+import events.PropertyChangedListener;
+
 import java.util.*;
 
 public class Schwein {
@@ -7,6 +10,7 @@ public class Schwein {
     public static final int MAX_WEIGHT = 20;
     private List<PigTooFatListener> pigTooFatListeners = new ArrayList<>();
 
+    private List<PropertyChangedListener> propertyChangedListeners = new ArrayList<>();
 
     private String name;
     private int gewicht;
@@ -28,12 +32,22 @@ public class Schwein {
         pigTooFatListeners.remove(listener);
     }
 
+    public void addPropertyChangedListener(PropertyChangedListener propertyChangedListener){
+        propertyChangedListeners.add(propertyChangedListener);
+    }
+
+    public void removePropertyChangedListener(PropertyChangedListener propertyChangedListener){
+        propertyChangedListeners.remove(propertyChangedListener);
+    }
+
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        if(this.name == name) return;
+        firePropertyChanged("name", this.name, this.name = name);
     }
 
     public int getGewicht() {
@@ -41,7 +55,7 @@ public class Schwein {
     }
 
     private void setGewicht(int gewicht) {
-        this.gewicht = gewicht;
+        firePropertyChanged("gewicht", this.gewicht, this.gewicht = gewicht);
         if(gewicht >= MAX_WEIGHT) firePigTooFatEvent();
     }
 
@@ -60,5 +74,15 @@ public class Schwein {
 
     private void firePigTooFatEvent() {
         pigTooFatListeners.forEach(listener->listener.pigTooFat(this));
+    }
+
+    private void firePropertyChanged(String propertyName, Object oldValue, Object newValue) {
+        PropertyChangedEvent propertyChangedEvent = new PropertyChangedEvent(this, propertyName,oldValue,newValue);
+        firePropertyChanged(propertyChangedEvent);
+    }
+
+    private void firePropertyChanged(PropertyChangedEvent event) {
+
+        propertyChangedListeners.forEach(listener->listener.propertyChanged(event));
     }
 }

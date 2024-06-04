@@ -13,10 +13,10 @@ public class Main {
 
 	public static void main(String[] args) throws Exception{
 		
-		//ExecutorService service = Executors.newFixedThreadPool(3);
+		ExecutorService service = Executors.newFixedThreadPool(3);
 		
 		
-		List<String> liste = List.of("1","2","drei","4","fünf","1","2","drei","4","fünf");
+		List<String> liste = List.of("1","2","drei","4","fï¿½nf","1","2","drei","4","fï¿½nf");
 		
 		EndSubscriber<Integer> endSubscriber = new EndSubscriber<>();
 		MyProcessor processor = new MyProcessor(String::length);
@@ -25,7 +25,7 @@ public class Main {
 		
 		SubmissionPublisher<String> publisher ;
 		
-		publisher = new SubmissionPublisher<String>(/*service, 100*/);
+		publisher = new SubmissionPublisher<String>(service, 100);
 		
 		
 		publisher.subscribe(processor);
@@ -34,7 +34,7 @@ public class Main {
 		
 		publisher.close();	
 		
-		ExecutorService  service = (ExecutorService) publisher.getExecutor();	
+		//service = (ExecutorService) publisher.getExecutor();
 		service.shutdown();
 		service.awaitTermination(1000, TimeUnit.DAYS);
 		
