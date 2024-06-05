@@ -25,6 +25,7 @@ public class MyRunner implements CommandLineRunner {
                     while (resultSet.next()) {
                         for (int column = 1; column <= metaData.getColumnCount() ; column++) {
                             System.out.printf("%-30s", resultSet.getString(column) + "\t");
+
                         }
                         System.out.println();
                     }
