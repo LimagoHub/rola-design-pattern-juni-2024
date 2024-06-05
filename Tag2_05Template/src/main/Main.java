@@ -8,7 +8,10 @@ import processors.LineCounter;
 public class Main {
     public static void main(String[] args) {
 
-        FileProcessor processor = new FileCopy();
+        FileProcessor processor = new FileProcessor();
+        processor.addCharacterHandler(new CharacterCounter());
+        processor.addCharacterHandler(new LineCounter());
+        processor.addCharacterHandler(new FileCopy());
         processor.run("./resource/eingabe.txt");
     }
 }

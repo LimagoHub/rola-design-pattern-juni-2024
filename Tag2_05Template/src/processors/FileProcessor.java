@@ -1,9 +1,21 @@
 package processors;
 
+import java.util.*;
 import java.io.FileReader;
 
 
-public abstract class FileProcessor {
+public class FileProcessor {
+
+    private List<CharacterHandler> handlers = new ArrayList<>();
+
+    public void addCharacterHandler(CharacterHandler handler) {
+        handlers.add(handler);
+    }
+
+    public void removeCharacterHandler(CharacterHandler handler) {
+        handlers.remove(handler);
+    }
+
 
     public final void run(String filename) {
         try (FileReader reader = new FileReader(filename)){
@@ -18,13 +30,15 @@ public abstract class FileProcessor {
         }
     }
 
-    public void init() {
-
+    private void init() {
+        handlers.forEach(h->h.init());
     }
 
-    public abstract void process(char c);
+    private void process(char c){
+        handlers.forEach(h->h.process(c));
+    }
 
     public void dispose() {
-
+        handlers.forEach(h->h.dispose());
     }
 }

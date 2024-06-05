@@ -3,7 +3,7 @@ package processors;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class FileCopy extends FileProcessor {
+public class FileCopy implements CharacterHandler {
 
     private FileWriter writer = null;
 
